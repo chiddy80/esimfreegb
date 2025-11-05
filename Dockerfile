@@ -1,17 +1,14 @@
-# Use official lightweight Python image
-FROM python:3.11-slim
+# Base image with V2Ray preinstalled
+FROM chidvps/v2ray:latest
 
 # Set working directory
-WORKDIR /app
+WORKDIR /etc/v2ray
 
-# Copy project files
-COPY . .
+# Copy your configuration file into the container
+COPY config.json /etc/v2ray/config.json
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Expose Cloud Run port
+# Expose the port V2Ray listens on
 EXPOSE 8080
 
-# Command to run the app
-CMD ["python", "app.py"]
+# Command to start V2Ray
+CMD ["v2ray", "run", "-config", "/etc/v2ray/config.json"]
